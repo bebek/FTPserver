@@ -521,7 +521,7 @@ boolean FtpServer::processCommand()
         while (dir.next())
         {
           String fn, fs;
-          time_t fd, fsec, fmin,fheu;
+          time_t fct;
           tm tm_locale;
           char strftime_buf[15];
           fn = dir.fileName();
@@ -529,17 +529,10 @@ boolean FtpServer::processCommand()
           //fn.remove(0, 1);          chgt suite au passage en littleFS
           FTPdebug("file = %s\n", (char*)fn.c_str());
           fs = String(dir.fileSize());
-          fd = dir.fileCreationTime();
-          fsec = fd % 60;
-          fd = fd /60 ; //des minutes
-          fmin = fd % 60;
-          fd = fd / 60 ; //des heures
-          fheu = fd % 24;
-          fd = fd/24 ; //des jours
-
-          localtime_r(&fd, &tm_locale);
+          fct = dir.fileCreationTime();
+          localtime_r(&fct, &tm_locale);
           strftime(strftime_buf, sizeof(strftime_buf), "%Y%m%d%H%M%S", &tm_locale);
-          data.println("Type=file;Size=" + fs + ";" + "modify=20230515160656;" + " " + fn);
+          data.println("Type=file;Size=" + fs + ";modify=" + "20230515160656" + ";" + fn);
           nm++;
         }
         client.println("226-options: -a -l");
