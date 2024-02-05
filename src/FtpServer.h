@@ -28,7 +28,7 @@
 #ifndef FTP_SERVERESP_H
 #define FTP_SERVERESP_H
 
-#ifdef DEBUG_ESP_PORT
+#ifdef DEBUG_FTP
 #define FTPdebug(x, ...)              \
   do                                  \
   {                                   \
