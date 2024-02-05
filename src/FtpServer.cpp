@@ -73,7 +73,7 @@ boolean FtpServer::handleFTP()
   if (ftpServer.hasClient())
   {
     client.stop();
-    client = ftpServer.available();
+    client = ftpServer.accept();
   }
 
   if (cmdStatus == cInit)
