@@ -520,7 +520,7 @@ boolean FtpServer::processCommand()
       {
         while (dir.next())
         {
-          String fn, fs;
+          String fn, fs, fstr;
           time_t fct;
           tm tm_locale;
           char strftime_buf[15];
@@ -530,9 +530,14 @@ boolean FtpServer::processCommand()
           FTPdebug("file = %s\n", (char*)fn.c_str());
           fs = String(dir.fileSize());
           fct = dir.fileCreationTime();
+          FTPdebug("gmtime    : %s", asctime(gmtime(&fct)));
           localtime_r(&fct, &tm_locale);
           strftime(strftime_buf, sizeof(strftime_buf), "%Y%m%d%H%M%S", &tm_locale);
-          data.println("Type=file;Size=" + fs + ";modify=" + "20230515160656" + ";" + fn);
+          FTPdebug("strftime_buf    : %s\n",strftime_buf);
+          //data.println("Type=file;Size=" + fs + ";modify=" + "20230515160656" + ";" + fn);
+          data.print("Type=file;Size=" + fs + ";modify=");
+          data.print(strftime_buf);
+          data.println("; " + fn);
           nm++;
         }
         client.println("226-options: -a -l");
@@ -850,7 +855,7 @@ boolean FtpServer::dataConnect()
     {
       FTPdebug("ftpdataserver client.... %dms\n", millis() - startTime);
       data.stop();
-      data = dataServer.available();
+      data = dataServer.accept();
       return true;   // osé ?? !!
     }
     else

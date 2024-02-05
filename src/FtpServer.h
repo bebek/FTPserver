@@ -58,9 +58,9 @@
 
 #include <WiFiClient.h>
 
-#define FTP_SERVER_VERSION "FTP-2020-12-09"
+#define FTP_SERVER_VERSION "FTP-2024-02-05"
 
-#define FTP_CTRL_PORT 21         // Command port on wich server is listening
+#define FTP_CTRL_PORT 21         // Command port on which server is listening
 #define FTP_DATA_PORT_PASV 50009 // Data port in passive mode
 
 #define FTP_TIME_OUT 5       // Disconnect client after 5 minutes of inactivity
