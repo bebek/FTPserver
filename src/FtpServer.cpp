@@ -556,7 +556,6 @@ boolean FtpServer::processCommand()
         //fn.remove(0, 1);   passage en littlefs
         fs = String(file.size());
         FTPdebug("file = %s\n", (char*)fn.c_str());
-        fs = String(file.Size());
         fct = file.getLastWrite();
         FTPdebug("gmtime    : %s", asctime(gmtime(&fct)));
         localtime_r(&fct, &tm_locale);
