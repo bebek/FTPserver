@@ -545,31 +545,27 @@ boolean FtpServer::processCommand()
       }
 #elif defined ESP32
       File root = FTP_FS.open(cwdName);
-      // if(!root){
-      // 		client.println( "550 Can't open directory " + String(cwdName) );
-      // 		// return;
-      // } else {
-      // if(!root.isDirectory()){
-      // 		Serial.println("Not a directory");
-      // 		return;
-      // }
-
       File file = root.openNextFile();
       while (file)
       {
-        // if(file.isDirectory()){
-        // 	data.println( "+r,s <DIR> " + String(file.name()));
-        // 	// Serial.print("  DIR : ");
-        // 	// Serial.println(file.name());
-        // 	// if(levels){
-        // 	// 	listDir(fs, file.name(), levels -1);
-        // 	// }
-        // } else {
         String fn, fs;
+        time_t fct;
+        tm tm_locale;
+        char strftime_buf[15];
         fn = file.name();
-        fn.remove(0, 1);
+        //fn.remove(0, 1);   passage en littlefs
         fs = String(file.size());
-        data.println("Type=file;Size=" + fs + ";" + "modify=20000101160656;" + " " + fn);
+        FTPdebug("file = %s\n", (char*)fn.c_str());
+        fs = String(dir.fileSize());
+        fct = file.fileCreationTime();
+        FTPdebug("gmtime    : %s", asctime(gmtime(&fct)));
+        localtime_r(&fct, &tm_locale);
+        strftime(strftime_buf, sizeof(strftime_buf), "%Y%m%d%H%M%S", &tm_locale);
+        FTPdebug("strftime_buf    : %s\n",strftime_buf);
+        //data.println("Type=file;Size=" + fs + ";" + "modify=20000101160656;" + " " + fn);
+        data.print("Type=file;Size=" + fs + ";modify=");
+        data.print(strftime_buf);
+        data.println("; " + fn);
         nm++;
         // }
         file = root.openNextFile();
