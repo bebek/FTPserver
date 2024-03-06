@@ -40,25 +40,13 @@
 #endif
 
 // #include "Streaming.h"
-#ifdef ESP8266
-#define FTP_FS LittleFS
-#include <LittleFS.h>
-#endif
 
-#ifdef ESP32
-#ifdef USE_LITTLEFS
 #define FTP_FS LittleFS
 #include <LittleFS.h>
-#else
-#define FTP_FS SPIFFS
-#include <FS.h>
-#include <SPIFFS.h>
-#endif
-#endif
 
 #include <WiFiClient.h>
 
-#define FTP_SERVER_VERSION "FTP-2024-02-05"
+#define FTP_SERVER_VERSION "FTP-2024-03-06"
 
 #define FTP_CTRL_PORT 21         // Command port on which server is listening
 #define FTP_DATA_PORT_PASV 50009 // Data port in passive mode
